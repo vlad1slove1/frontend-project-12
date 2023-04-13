@@ -1,25 +1,29 @@
-/* eslint-disable functional/no-expression-statements */
+import React from 'react';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from 'react-router-dom';
 
-import i18next from 'i18next';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
-import App from './components/App';
-import resources from './locales/index.js';
+import RootPage from './routes/RootPage.jsx';
+import LoginPage from './routes/LoginPage.jsx';
+import ErrorPage from './routes/ErrorPage.jsx';
 
-const init = async () => {
-  const i18n = i18next.createInstance();
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+]);
 
-  await i18n
-    .use(initReactI18next)
-    .init({
-      resources,
-      fallbackLng: 'ru',
-    });
-
-  return (
-    <I18nextProvider i18n={i18n}>
-      <App />
-    </I18nextProvider>
-  );
-};
+const init = () => (
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
 
 export default init;
