@@ -1,29 +1,9 @@
 import React from 'react';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
 
-import RootPage from './routes/RootPage.jsx';
-import LoginPage from './routes/LoginPage.jsx';
-import ErrorPage from './routes/ErrorPage.jsx';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <RootPage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
-]);
+import App from './components/App.jsx';
 
 const init = () => (
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <App />
 );
 
 export default init;
