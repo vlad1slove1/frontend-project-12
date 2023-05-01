@@ -10,12 +10,12 @@ import {
   useLocation,
 } from 'react-router-dom';
 import {
-  Button, Navbar,
+  Button, Container, Navbar,
 } from 'react-bootstrap';
 
-import ChatPage from './ChatPage.jsx';
-import LoginPage from './LoginPage.jsx';
-import ErrorPage from './ErrorPage.jsx';
+import ChatPage from '../pages/ChatPage.jsx';
+import LoginPage from '../pages/LoginPage.jsx';
+import ErrorPage from '../pages/ErrorPage.jsx';
 import AuthContext from '../contexts/index.jsx';
 import useAuth from '../hooks/index.jsx';
 
@@ -50,33 +50,33 @@ const AuthButton = () => {
 
   return (
     auth.loggedIn
-      ? <Button onClick={auth.logOut}>Выйти из аккаунта</Button>
-      : <Button as={Link} to="/login" state={{ from: location }}>Войти в аккаунт</Button>
+      ? <Button variant="outline-danger" onClick={auth.logOut}>Выйти из аккаунта</Button>
+      : <Button variant="outline-success" as={Link} to="/login" state={{ from: location }}>Войти в аккаунт</Button>
   );
 };
 
 const App = () => (
   <AuthProvider>
     <Router>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand as={Link} to="/">Чат</Navbar.Brand>
-        <AuthButton />
+      <Navbar bg="white" variant="light" expand="lg" className="shadow-sm">
+        <Container>
+          <Navbar.Brand as={Link} to="/">Чат</Navbar.Brand>
+          <AuthButton />
+        </Container>
       </Navbar>
 
-      <div className="routes-container p-3">
-        <Routes>
-          <Route
-            path="/"
-            element={(
-              <ChatRoute>
-                <ChatPage />
-              </ChatRoute>
-            )}
-          />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={(
+            <ChatRoute>
+              <ChatPage />
+            </ChatRoute>
+          )}
+        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
 
     </Router>
   </AuthProvider>
