@@ -1,17 +1,24 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { channelsInfoSelector, messagesInfoSelector } from '../slices/initialStateSlice';
+import MessageForm from './MessageForm.jsx';
+import {
+  channelsInfoSelector,
+  messagesInfoSelector,
+  loadingSelector,
+} from '../slices/initialStateSlice.js';
 
 const Messages = () => {
   const channelsData = useSelector(channelsInfoSelector);
   const messagesData = useSelector(messagesInfoSelector);
+  const loadingStatus = useSelector(loadingSelector);
 
-  const { currentChannelId } = channelsData;
+  if (loadingStatus === 'loading') {
+    return <p>Loading...</p>;
+  }
 
-  const channelData = channelsData.channels.find((channel) => channel.id === currentChannelId);
-  const { name } = channelData;
-  const messagesCount = messagesData.messages.length;
+  const { channels, currentChannelId } = channelsData;
+  const channelData = channels.filter((channel) => channel.id === currentChannelId);
 
   return (
     <div className="col p-0 h-100">
@@ -21,13 +28,18 @@ const Messages = () => {
             <b>
               #
               {' '}
-              {name}
+              {channelData[0].name}
             </b>
           </p>
           <span className="text-muted">
+            {messagesData.messages.length}
             {' '}
-            {messagesCount}
+            сообщений
           </span>
+        </div>
+        <div id="messages-box" className="chat-messages overflow-auto px-5" />
+        <div className="mt-auto px-5 py-3">
+          <MessageForm />
         </div>
       </div>
     </div>

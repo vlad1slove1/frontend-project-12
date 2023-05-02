@@ -18,9 +18,11 @@ export const fetchInitialState = createAsyncThunk(
 );
 
 const initialState = {
+  loadingStatus: 'loading',
+  error: null,
   channelsInfo: {
     channels: [],
-    currentChannelId: 1,
+    currentChannelId: null,
   },
   messagesInfo: {
     messages: [],
@@ -37,10 +39,20 @@ const initialStateSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchInitialState.pending, (state) => {
+        state.loadingStatus = 'loading';
+        state.error = null;
+      })
       .addCase(fetchInitialState.fulfilled, (state, action) => {
         state.channelsInfo.channels = action.payload.channels;
         state.channelsInfo.currentChannelId = action.payload.currentChannelId;
         state.messagesInfo.messages = action.payload.messages;
+        state.loadingStatus = 'idle';
+        state.error = null;
+      })
+      .addCase(fetchInitialState, (state, action) => {
+        state.loadingStatus = 'failed';
+        state.error = action.error;
       });
   },
 });
@@ -48,4 +60,5 @@ const initialStateSlice = createSlice({
 export const { changeChannel } = initialStateSlice.actions;
 export const channelsInfoSelector = (state) => state.channelsInfo;
 export const messagesInfoSelector = (state) => state.messagesInfo;
+export const loadingSelector = (state) => state.loadingStatus;
 export default initialStateSlice.reducer;

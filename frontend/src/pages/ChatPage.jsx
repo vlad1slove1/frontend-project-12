@@ -20,7 +20,12 @@ const ChatPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchInitialState(getAuthHeader()));
+    const fetchData = async () => {
+      const header = await getAuthHeader();
+      dispatch(fetchInitialState(header));
+    };
+
+    fetchData();
   }, [dispatch]);
 
   return (
