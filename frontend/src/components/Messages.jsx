@@ -1,24 +1,21 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import MessageForm from './MessageForm.jsx';
-import {
-  channelsInfoSelector,
-  messagesInfoSelector,
-  loadingSelector,
-} from '../slices/initialStateSlice.js';
+import MessagesList from './messages/MessagesList.jsx';
+import MessageForm from './messages/MessageForm.jsx';
 
 const Messages = () => {
-  const channelsData = useSelector(channelsInfoSelector);
-  const messagesData = useSelector(messagesInfoSelector);
-  const loadingStatus = useSelector(loadingSelector);
+  const channelsData = useSelector((state) => state.channelsInfo);
+  const { channels, currentChannelId, loadingStatus } = channelsData;
+  const messagesData = useSelector((state) => state.messagesInfo);
+  const { messages } = messagesData;
 
   if (loadingStatus === 'loading') {
     return <p>Loading...</p>;
   }
 
-  const { channels, currentChannelId } = channelsData;
   const channelData = channels.filter((channel) => channel.id === currentChannelId);
+  const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
 
   return (
     <div className="col p-0 h-100">
@@ -32,12 +29,14 @@ const Messages = () => {
             </b>
           </p>
           <span className="text-muted">
-            {messagesData.messages.length}
+            {channelMessages.length}
             {' '}
             сообщений
           </span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5" />
+        <div id="messages-box" className="chat-messages overflow-auto px-5">
+          {channelMessages.length === 0 ? null : <MessagesList messages={channelMessages} />}
+        </div>
         <div className="mt-auto px-5 py-3">
           <MessageForm />
         </div>

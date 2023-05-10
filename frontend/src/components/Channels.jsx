@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import uniqueId from 'lodash/uniqueId.js';
 import { Plus } from 'react-bootstrap-icons';
 
-import { channelsInfoSelector, changeChannel } from '../slices/initialStateSlice';
+import { actions } from '../slices/channelsSlice.js';
+
+const { changeChannel } = actions;
 
 const Channel = ({ channelData }) => {
   const dispatch = useDispatch();
-  const stateChannels = useSelector(channelsInfoSelector);
+  const stateChannels = useSelector((state) => state.channelsInfo);
   const { currentChannelId } = stateChannels;
 
   const { id, name } = channelData;
@@ -33,7 +35,7 @@ const Channel = ({ channelData }) => {
 };
 
 const Channels = () => {
-  const stateChannels = useSelector(channelsInfoSelector);
+  const stateChannels = useSelector((state) => state.channelsInfo);
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">

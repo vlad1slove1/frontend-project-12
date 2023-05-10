@@ -1,7 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
-import initialStateReducer from './initialStateSlice.js';
+import channelsSlice from './channelsSlice.js';
+import messagesSlice from './messagesSlice.js';
+
+const reducer = combineReducers({
+  channelsInfo: channelsSlice,
+  messagesInfo: messagesSlice,
+});
 
 export default configureStore({
-  reducer: initialStateReducer,
+  reducer,
 });

@@ -16,8 +16,11 @@ import {
 import ChatPage from '../pages/ChatPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import ErrorPage from '../pages/ErrorPage.jsx';
-import AuthContext from '../contexts/index.jsx';
-import useAuth from '../hooks/index.jsx';
+import AuthContext from '../contexts/AuthContext.jsx';
+
+import routes from '../routes.js';
+import useAuth from '../hooks/useAuth.jsx';
+import ChatProvider from '../contexts/ChatContext.jsx';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -40,7 +43,7 @@ const ChatRoute = ({ children }) => {
   const location = useLocation();
 
   return (
-    auth.loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
+    auth.loggedIn ? children : <Navigate to={routes.loginPagePath()} state={{ from: location }} />
   );
 };
 
@@ -51,31 +54,33 @@ const AuthButton = () => {
   return (
     auth.loggedIn
       ? <Button variant="outline-danger" onClick={auth.logOut}>Выйти из аккаунта</Button>
-      : <Button variant="outline-success" as={Link} to="/login" state={{ from: location }}>Войти в аккаунт</Button>
+      : <Button variant="outline-success" as={Link} to={routes.loginPagePath()} state={{ from: location }}>Войти в аккаунт</Button>
   );
 };
 
-const App = () => (
+const App = ({ socket }) => (
   <AuthProvider>
     <Router>
       <Navbar bg="white" variant="light" expand="lg" className="shadow-sm">
         <Container>
-          <Navbar.Brand as={Link} to="/">Чат</Navbar.Brand>
+          <Navbar.Brand as={Link} to={routes.chatPagePath()}>Чат</Navbar.Brand>
           <AuthButton />
         </Container>
       </Navbar>
 
       <Routes>
         <Route
-          path="/"
+          path={routes.chatPagePath()}
           element={(
-            <ChatRoute>
-              <ChatPage />
-            </ChatRoute>
+            <ChatProvider socket={socket}>
+              <ChatRoute>
+                <ChatPage />
+              </ChatRoute>
+            </ChatProvider>
           )}
         />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<ErrorPage />} />
+        <Route path={routes.loginPagePath()} element={<LoginPage />} />
+        <Route path={routes.errorPagePath()} element={<ErrorPage />} />
       </Routes>
 
     </Router>

@@ -1,15 +1,15 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider as StoreProvider } from 'react-redux';
 
 import App from './components/App.jsx';
 import store from './slices/index.js';
 
-const init = () => (
-  <Provider store={store}>
+const init = (socket) => (
+  <StoreProvider store={store}>
     <div className="d-flex flex-column h-100">
-      <App />
+      <App socket={socket} />
     </div>
-  </Provider>
+  </StoreProvider>
 );
 
 export default init;

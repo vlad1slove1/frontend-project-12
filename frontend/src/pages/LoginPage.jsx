@@ -5,7 +5,7 @@ import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
-import useAuth from '../hooks/index.jsx';
+import useAuth from '../hooks/useAuth.jsx';
 import routes from '../routes.js';
 
 const signupSchema = yup.object({
