@@ -10,9 +10,7 @@ const Messages = () => {
   const messagesData = useSelector((state) => state.messagesInfo);
   const { messages } = messagesData;
 
-  if (loadingStatus === 'loading') {
-    return <p>Loading...</p>;
-  }
+  if (loadingStatus === 'loading') return (<p>Loading...</p>);
 
   const channelData = channels.filter((channel) => channel.id === currentChannelId);
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);

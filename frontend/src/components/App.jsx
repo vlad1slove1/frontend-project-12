@@ -20,7 +20,6 @@ import AuthContext from '../contexts/AuthContext.jsx';
 
 import routes from '../routes.js';
 import useAuth from '../hooks/useAuth.jsx';
-import ChatProvider from '../contexts/ChatContext.jsx';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -58,7 +57,7 @@ const AuthButton = () => {
   );
 };
 
-const App = ({ socket }) => (
+const App = () => (
   <AuthProvider>
     <Router>
       <Navbar bg="white" variant="light" expand="lg" className="shadow-sm">
@@ -72,11 +71,9 @@ const App = ({ socket }) => (
         <Route
           path={routes.chatPagePath()}
           element={(
-            <ChatProvider socket={socket}>
-              <ChatRoute>
-                <ChatPage />
-              </ChatRoute>
-            </ChatProvider>
+            <ChatRoute>
+              <ChatPage />
+            </ChatRoute>
           )}
         />
         <Route path={routes.loginPagePath()} element={<LoginPage />} />

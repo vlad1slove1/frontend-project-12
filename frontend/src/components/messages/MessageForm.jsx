@@ -11,19 +11,21 @@ import useChatContext from '../../hooks/useChatContext.jsx';
 const MessageForm = () => {
   const [message, setMessage] = useState('');
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
-  const { emitMessage } = useChatContext();
+  const { handleNewMessage } = useChatContext();
   const inputEl = useRef(null);
 
   useEffect(() => {
     inputEl.current.focus();
-  }, []);
+  });
 
   const handleSendMessage = (e) => {
     e.preventDefault();
 
-    const { username } = JSON.parse(localStorage.getItem('userId'));
-    emitMessage({ body: message, channelId: currentChannelId, username });
-    setMessage('');
+    if (message) {
+      const { username } = JSON.parse(localStorage.getItem('userId'));
+      handleNewMessage({ body: message, channelId: currentChannelId, username });
+      setMessage('');
+    }
   };
 
   return (

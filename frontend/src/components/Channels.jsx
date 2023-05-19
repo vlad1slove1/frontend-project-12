@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import uniqueId from 'lodash/uniqueId.js';
 import { Plus } from 'react-bootstrap-icons';
 
-import { actions } from '../slices/channelsSlice.js';
-
-const { changeChannel } = actions;
+import { changeChannel } from '../slices/channelsSlice.js';
 
 const Channel = ({ channelData }) => {
   const dispatch = useDispatch();
