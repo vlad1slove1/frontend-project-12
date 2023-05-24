@@ -1,16 +1,19 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import MessagesList from './messages/MessagesList.jsx';
-import MessageForm from './messages/MessageForm.jsx';
+import MessagesList from './semiComponents/MessagesList.jsx';
+import MessageForm from './semiComponents/MessageForm.jsx';
 
 const Messages = () => {
   const channelsData = useSelector((state) => state.channelsInfo);
-  const { channels, currentChannelId, loadingStatus } = channelsData;
   const messagesData = useSelector((state) => state.messagesInfo);
+
+  const { channels, currentChannelId, loadingStatus } = channelsData;
   const { messages } = messagesData;
 
-  if (loadingStatus === 'loading') return (<p>Loading...</p>);
+  if (loadingStatus === 'loading') {
+    return (<p>Loading...</p>);
+  }
 
   const channelData = channels.filter((channel) => channel.id === currentChannelId);
   const channelMessages = messages.filter((message) => message.channelId === currentChannelId);
