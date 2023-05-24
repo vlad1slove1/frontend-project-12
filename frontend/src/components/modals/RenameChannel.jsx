@@ -25,15 +25,16 @@ const RenameChannel = (props) => {
     initialValues: { name: modalInfo.item.name },
     validationSchema: schema,
     onSubmit: (value) => {
-      handleRenameChannel({ id: modalInfo.id, name: value.name });
+      handleRenameChannel({ id: modalInfo.item.id, name: value.name });
       onHide();
     },
   });
 
   const inputRef = useRef();
   useEffect(() => {
+    inputRef.current.setSelectionRange(0, modalInfo.item.name.length);
     inputRef.current.focus();
-  }, []);
+  }, [modalInfo.item.name]);
 
   return (
     <Modal show onHide={onHide}>

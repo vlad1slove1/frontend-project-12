@@ -26,8 +26,9 @@ const channelsSlice = createSlice({
       state.channels = filteredChannels;
     },
     renameChannel: (state, action) => {
-      const { payload } = action;
-      console.log(payload);
+      const oldItemIndex = state.channels.map((task) => task.id).indexOf(action.payload.id);
+      const newItem = { id: action.payload.id, name: action.payload.name, removable: true };
+      state.channels[oldItemIndex] = newItem;
     },
   },
   extraReducers: (builder) => {
