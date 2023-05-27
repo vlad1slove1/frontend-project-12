@@ -30,10 +30,10 @@ const RenameChannel = (props) => {
     },
   });
 
-  const inputRef = useRef();
+  const inputEl = useRef();
   useEffect(() => {
-    inputRef.current.setSelectionRange(0, modalInfo.item.name.length);
-    inputRef.current.focus();
+    inputEl.current.setSelectionRange(0, modalInfo.item.name.length);
+    inputEl.current.focus();
   }, [modalInfo.item.name]);
 
   return (
@@ -51,7 +51,7 @@ const RenameChannel = (props) => {
               id="name"
               onChange={formik.handleChange}
               value={formik.values.name}
-              ref={inputRef}
+              ref={inputEl}
             />
           </FormGroup>
 

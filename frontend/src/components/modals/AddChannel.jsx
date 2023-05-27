@@ -30,9 +30,9 @@ const AddChannel = (props) => {
     },
   });
 
-  const inputRef = useRef();
+  const inputEl = useRef();
   useEffect(() => {
-    inputRef.current.focus();
+    inputEl.current.focus();
   }, []);
 
   return (
@@ -51,7 +51,7 @@ const AddChannel = (props) => {
               id="name"
               onChange={formik.handleChange}
               value={formik.values.name}
-              ref={inputRef}
+              ref={inputEl}
             />
           </FormGroup>
 

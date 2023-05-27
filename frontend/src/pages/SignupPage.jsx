@@ -1,0 +1,155 @@
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useFormik } from 'formik';
+import { Form, Button, FloatingLabel } from 'react-bootstrap';
+import * as yup from 'yup';
+
+import SignupError from '../components/semiComponents/SignupError.jsx';
+import SignupSuccess from '../components/semiComponents/SignupSuccess.jsx';
+
+import useAuth from '../hooks/useAuth.jsx';
+import routes from '../routes.js';
+
+const signupSchema = yup.object({
+  username: yup.string()
+    .min(3, 'Не менее 3 символов')
+    .max(20, 'Не более 20 символов')
+    .required('Обязательное поле'),
+  password: yup.string()
+    .min(6, 'Не менее 6 символов')
+    .required('Обязательное поле'),
+  confirmPass: yup.string()
+    .oneOf([yup.ref('password')], 'Пароли должны совпадать')
+    .required('Обязательное поле'),
+});
+
+const SignupPage = () => {
+  const [authenticated, setAuthenticated] = useState(true);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const handleClose = () => setShowErrorModal(false);
+
+  const authUser = useAuth();
+  const inputEl = useRef();
+
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+      confirmPass: '',
+    },
+    validationSchema: signupSchema,
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(routes.signupPath(), values);
+        localStorage.setItem('userId', JSON.stringify(response.data));
+
+        authUser.logIn();
+        setShowSuccessModal(true);
+      } catch (error) {
+        formik.setSubmitting(false);
+        if (error.isAxiosError && error.response.status === 409) {
+          setAuthenticated(false);
+          setShowErrorModal(true);
+        }
+        throw error;
+      }
+    },
+  });
+
+  return (
+    <div className="container-fluid" style={{ marginTop: '15vh' }}>
+      <div className="row justify-content-center pt-4">
+        <div className="col-sm-4" style={{ textAlign: 'center' }}>
+          <h1 className="mb-3" style={{ margin: '0 auto' }}>Регистрация</h1>
+          <Form onSubmit={formik.handleSubmit}>
+            <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
+              <FloatingLabel label="Имя пользователя" className="mb-3">
+                <Form.Control
+                  type="text"
+                  onChange={formik.handleChange}
+                  value={formik.values.username}
+                  name="username"
+                  id="username"
+                  onBlur={formik.handleBlur}
+                  isInvalid={
+                    (formik.touched.username && formik.errors.username) || authenticated
+                  }
+                  required
+                  size="lg"
+                  ref={inputEl}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.username}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
+              <FloatingLabel label="Пароль" className="mb-3">
+                <Form.Control
+                  type="password"
+                  onChange={formik.handleChange}
+                  value={formik.values.password}
+                  name="password"
+                  id="password"
+                  onBlur={formik.handleBlur}
+                  isInvalid={
+                    (formik.touched.password && formik.errors.password) || authenticated
+                  }
+                  required
+                  size="lg"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.password}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+
+            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
+              <FloatingLabel label="Подтвердить пароль" className="mb-3">
+                <Form.Control
+                  type="password"
+                  onChange={formik.handleChange}
+                  value={formik.values.confirmPass}
+                  name="confirmPass"
+                  id="confirmPass"
+                  onBlur={formik.handleBlur}
+                  isInvalid={
+                    (formik.touched.confirmPass && formik.errors.confirmPass) || authenticated
+                  }
+                  required
+                  size="lg"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.confirmPass}
+                </Form.Control.Feedback>
+              </FloatingLabel>
+            </Form.Group>
+
+            <Button
+              style={{ marginTop: '15px', width: '400px' }}
+              type="submit"
+              variant="outline-primary"
+            >
+              Подтвердить
+            </Button>
+          </Form>
+        </div>
+        {showErrorModal
+          ? <SignupError show={showErrorModal} handleClose={handleClose} />
+          : null}
+        {showSuccessModal
+          ? <SignupSuccess show={showSuccessModal} handleClose={handleClose} />
+          : null}
+      </div>
+    </div>
+  );
+};
+
+export default SignupPage;

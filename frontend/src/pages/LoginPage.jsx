@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { Button, Form, FloatingLabel } from 'react-bootstrap';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 
 import useAuth from '../hooks/useAuth.jsx';
@@ -21,7 +21,6 @@ const signupSchema = yup.object({
 const LoginPage = () => {
   const [authenticated, setAuthenticated] = useState(true);
 
-  const location = useLocation();
   const navigate = useNavigate();
   const authUser = useAuth();
   const inputEl = useRef();
@@ -40,9 +39,9 @@ const LoginPage = () => {
       try {
         const response = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(response.data));
+
         authUser.logIn();
-        const { from } = location.state || { from: { pathname: '/' } };
-        navigate(from);
+        navigate(routes.chatPagePath());
       } catch (error) {
         formik.setSubmitting(false);
         if (error.isAxiosError && error.response.status === 401) {
@@ -57,21 +56,21 @@ const LoginPage = () => {
 
   return (
     <div className="container-fluid" style={{ marginTop: '15vh' }}>
-      <div className="row justify-content-center pt-5">
+      <div className="row justify-content-center pt-4">
         <div className="col-sm-4" style={{ textAlign: 'center' }}>
-          <h1 style={{ margin: '0 auto' }}>Войти</h1>
-          <Form onSubmit={formik.handleSubmit} className="p-3">
-            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
+          <h1 className="mb-3" style={{ margin: '0 auto' }}>Войти</h1>
+          <Form onSubmit={formik.handleSubmit}>
+            <Form.Group className="mb-3" style={{ width: '400px', margin: '0 auto' }}>
               <FloatingLabel
                 label="Имя пользователя"
                 className="mb-3"
               >
                 <Form.Control
+                  type="text"
                   onChange={formik.handleChange}
                   value={formik.values.username}
                   name="username"
                   id="username"
-                  autoComplete="username"
                   isInvalid={!authenticated}
                   required
                   ref={inputEl}
@@ -80,7 +79,7 @@ const LoginPage = () => {
               </FloatingLabel>
             </Form.Group>
 
-            <Form.Group style={{ paddingTop: '15px', width: '400px', margin: '0 auto' }}>
+            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
               <FloatingLabel
                 label="Ваш пароль"
                 className="mb-3"
@@ -91,7 +90,6 @@ const LoginPage = () => {
                   value={formik.values.password}
                   name="password"
                   id="password"
-                  autoComplete="current-password"
                   isInvalid={!authenticated}
                   required
                   size="lg"

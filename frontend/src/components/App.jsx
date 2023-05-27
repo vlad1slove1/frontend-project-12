@@ -16,6 +16,7 @@ import {
 import ChatPage from '../pages/ChatPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import ErrorPage from '../pages/ErrorPage.jsx';
+import SignupPage from '../pages/SignupPage.jsx';
 import AuthContext from '../contexts/AuthContext.jsx';
 
 import routes from '../routes.js';
@@ -52,18 +53,30 @@ const AuthButton = () => {
 
   return (
     auth.loggedIn
-      ? <Button variant="outline-danger" onClick={auth.logOut}>Выйти из аккаунта</Button>
-      : <Button variant="outline-success" as={Link} to={routes.loginPagePath()} state={{ from: location }}>Войти в аккаунт</Button>
+      ? <Button className="ms-auto p-2 me-2" variant="outline-danger" onClick={auth.logOut}>Выйти из аккаунта</Button>
+      : <Button className="ms-auto p-2 me-2" variant="outline-success" as={Link} to={routes.loginPagePath()} state={{ from: location }}>Войти в аккаунт</Button>
+  );
+};
+
+const SignupButton = () => {
+  const auth = useAuth();
+  const location = useLocation();
+
+  return (
+    auth.loggedIn
+      ? <Button className="p-2" variant="outline-secondary" disabled>Зарегистрироваться</Button>
+      : <Button className="p-2" variant="outline-info" as={Link} to={routes.signupPagePath()} state={{ from: location }}>Зарегистрироваться</Button>
   );
 };
 
 const App = () => (
   <AuthProvider>
     <Router>
-      <Navbar bg="white" variant="light" expand="lg" className="shadow-sm">
+      <Navbar bg="white" variant="light" expand="lg" className="shadow-sm d-flex">
         <Container>
           <Navbar.Brand as={Link} to={routes.chatPagePath()}>Чат</Navbar.Brand>
           <AuthButton />
+          <SignupButton />
         </Container>
       </Navbar>
 
@@ -77,6 +90,7 @@ const App = () => (
           )}
         />
         <Route path={routes.loginPagePath()} element={<LoginPage />} />
+        <Route path={routes.signupPagePath()} element={<SignupPage />} />
         <Route path={routes.errorPagePath()} element={<ErrorPage />} />
       </Routes>
 
