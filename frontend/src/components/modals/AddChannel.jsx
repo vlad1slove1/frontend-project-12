@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { Modal, FormGroup, FormControl } from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import useChatContext from '../../hooks/useChatContext.jsx';
 
@@ -10,15 +11,16 @@ const AddChannel = (props) => {
   const { onHide } = props;
   const stateChannels = useSelector((state) => state.channelsInfo);
   const { handleNewChannel } = useChatContext();
+  const { t } = useTranslation();
 
   const getChannelTitles = stateChannels.channels.map((channel) => channel.name);
 
   const schema = yup.object().shape({
     name: yup.string()
-      .min(3, 'от 5 до 20 символов')
-      .max(20, 'от 5 до 20 символов')
-      .required('не должно быть пустым')
-      .notOneOf(getChannelTitles, 'название каналов не должно повторяться'),
+      .min(5, t('modals.addChannel.titleMin'))
+      .max(20, t('modals.addChannel.titleMax'))
+      .required(t('modals.addChannel.titleRequired'))
+      .notOneOf(getChannelTitles, t('modals.addChannel.titleUnique')),
   });
 
   const formik = useFormik({
@@ -38,31 +40,30 @@ const AddChannel = (props) => {
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('modals.addChannel.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={formik.handleSubmit}>
-          <FormGroup>
-            <FormControl
-              required
-              data-testid="input-body"
-              name="name"
-              id="name"
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group>
+            <Form.Control
+              type="text"
               onChange={formik.handleChange}
               value={formik.values.name}
+              name="name"
+              id="name"
               ref={inputEl}
+              onBlur={formik.handleBlur}
+              isInvalid={(formik.touched.name && formik.errors.name)}
+              required
             />
-          </FormGroup>
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          {formik.errors.name && formik.touched.name
-            ? (<div style={{ color: 'red' }}>{formik.errors.name}</div>)
-            : null}
-
-          <div className="d-flex justify-content-end mt-2">
-            <input className="btn btn-primary float-end" type="submit" value="Добавить" />
-          </div>
-        </form>
+          <Button variant="primary" className="float-end mt-3" type="submit">{t('modals.addChannel.button')}</Button>
+        </Form>
       </Modal.Body>
     </Modal>
   );

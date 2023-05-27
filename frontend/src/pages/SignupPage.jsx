@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import { Form, Button, FloatingLabel } from 'react-bootstrap';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import SignupError from '../components/semiComponents/SignupError.jsx';
 import SignupSuccess from '../components/semiComponents/SignupSuccess.jsx';
@@ -10,28 +11,29 @@ import SignupSuccess from '../components/semiComponents/SignupSuccess.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 import routes from '../routes.js';
 
-const signupSchema = yup.object({
-  username: yup.string()
-    .min(3, 'Не менее 3 символов')
-    .max(20, 'Не более 20 символов')
-    .required('Обязательное поле'),
-  password: yup.string()
-    .min(6, 'Не менее 6 символов')
-    .required('Обязательное поле'),
-  confirmPass: yup.string()
-    .oneOf([yup.ref('password')], 'Пароли должны совпадать')
-    .required('Обязательное поле'),
-});
-
 const SignupPage = () => {
   const [authenticated, setAuthenticated] = useState(true);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const { t } = useTranslation();
 
   const handleClose = () => setShowErrorModal(false);
 
   const authUser = useAuth();
   const inputEl = useRef();
+
+  const signupSchema = yup.object({
+    username: yup.string()
+      .min(3, t('errors.usernameMin'))
+      .max(20, t('errors.usernamemax'))
+      .required(t('errors.required')),
+    password: yup.string()
+      .min(6, t('errors.passwordMin'))
+      .required(t('errors.required')),
+    confirmPass: yup.string()
+      .oneOf([yup.ref('password')], t('errors.confirmPass'))
+      .required(t('errors.required')),
+  });
 
   useEffect(() => {
     inputEl.current.focus();
@@ -66,10 +68,10 @@ const SignupPage = () => {
     <div className="container-fluid" style={{ marginTop: '15vh' }}>
       <div className="row justify-content-center pt-4">
         <div className="col-sm-4" style={{ textAlign: 'center' }}>
-          <h1 className="mb-3" style={{ margin: '0 auto' }}>Регистрация</h1>
+          <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('signupForm.title')}</h1>
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label="Имя пользователя" className="mb-3">
+              <FloatingLabel label={t('signupForm.username')} className="mb-3">
                 <Form.Control
                   type="text"
                   onChange={formik.handleChange}
@@ -91,7 +93,7 @@ const SignupPage = () => {
             </Form.Group>
 
             <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label="Пароль" className="mb-3">
+              <FloatingLabel label={t('signupForm.password')} className="mb-3">
                 <Form.Control
                   type="password"
                   onChange={formik.handleChange}
@@ -112,7 +114,7 @@ const SignupPage = () => {
             </Form.Group>
 
             <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label="Подтвердить пароль" className="mb-3">
+              <FloatingLabel label={t('signupForm.confirmPass')} className="mb-3">
                 <Form.Control
                   type="password"
                   onChange={formik.handleChange}
@@ -137,7 +139,7 @@ const SignupPage = () => {
               type="submit"
               variant="outline-primary"
             >
-              Подтвердить
+              {t('signupForm.submitButton')}
             </Button>
           </Form>
         </div>

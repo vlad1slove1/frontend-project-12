@@ -10,8 +10,13 @@ import {
   useLocation,
 } from 'react-router-dom';
 import {
-  Button, Container, Navbar,
+  Button,
+  Container,
+  Navbar,
+  Dropdown,
+  DropdownButton,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import ChatPage from '../pages/ChatPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
@@ -49,53 +54,84 @@ const ChatRoute = ({ children }) => {
 
 const AuthButton = () => {
   const auth = useAuth();
-  const location = useLocation();
+  const { t } = useTranslation();
 
   return (
     auth.loggedIn
-      ? <Button className="ms-auto p-2 me-2" variant="outline-danger" onClick={auth.logOut}>Выйти из аккаунта</Button>
-      : <Button className="ms-auto p-2 me-2" variant="outline-success" as={Link} to={routes.loginPagePath()} state={{ from: location }}>Войти в аккаунт</Button>
+      ? <Button className="ms-auto p-2" variant="link" onClick={auth.logOut}>{t('navbar.logout')}</Button>
+      : null
+  );
+};
+
+const LanguageDropdown = () => {
+  const { t, i18n } = useTranslation();
+
+  const handleChangeLanguage = (language) => {
+    i18n.changeLanguage(language);
+  };
+
+  return (
+    <DropdownButton className="p-2" variant="link" title={t('navbar.language')}>
+      <Dropdown.Item onClick={() => handleChangeLanguage('ru')}>{t('navbar.ru')}</Dropdown.Item>
+      <Dropdown.Item onClick={() => handleChangeLanguage('en')}>{t('navbar.en')}</Dropdown.Item>
+    </DropdownButton>
   );
 };
 
 const SignupButton = () => {
   const auth = useAuth();
   const location = useLocation();
+  const { t } = useTranslation();
 
   return (
     auth.loggedIn
-      ? <Button className="p-2" variant="outline-secondary" disabled>Зарегистрироваться</Button>
-      : <Button className="p-2" variant="outline-info" as={Link} to={routes.signupPagePath()} state={{ from: location }}>Зарегистрироваться</Button>
+      ? null
+      : (
+        <Button
+          className="ms-auto p-2"
+          variant="link"
+          as={Link}
+          to={routes.signupPagePath()}
+          state={{ from: location }}
+        >
+          {t('navbar.signup')}
+        </Button>
+      )
   );
 };
 
-const App = () => (
-  <AuthProvider>
-    <Router>
-      <Navbar bg="white" variant="light" expand="lg" className="shadow-sm d-flex">
-        <Container>
-          <Navbar.Brand as={Link} to={routes.chatPagePath()}>Чат</Navbar.Brand>
-          <AuthButton />
-          <SignupButton />
-        </Container>
-      </Navbar>
+const App = () => {
+  const { t } = useTranslation();
 
-      <Routes>
-        <Route
-          path={routes.chatPagePath()}
-          element={(
-            <ChatRoute>
-              <ChatPage />
-            </ChatRoute>
-          )}
-        />
-        <Route path={routes.loginPagePath()} element={<LoginPage />} />
-        <Route path={routes.signupPagePath()} element={<SignupPage />} />
-        <Route path={routes.errorPagePath()} element={<ErrorPage />} />
-      </Routes>
+  return (
+    <AuthProvider>
+      <Router>
+        <Navbar bg="white" variant="light" expand="lg" className="shadow-sm d-flex">
+          <Container>
+            <Navbar.Brand as={Link} to={routes.chatPagePath()}>{t('navbar.title')}</Navbar.Brand>
+            <AuthButton />
+            <SignupButton />
+            <LanguageDropdown />
+          </Container>
+        </Navbar>
 
-    </Router>
-  </AuthProvider>
-);
+        <Routes>
+          <Route
+            path={routes.chatPagePath()}
+            element={(
+              <ChatRoute>
+                <ChatPage />
+              </ChatRoute>
+              )}
+          />
+          <Route path={routes.loginPagePath()} element={<LoginPage />} />
+          <Route path={routes.signupPagePath()} element={<SignupPage />} />
+          <Route path={routes.errorPagePath()} element={<ErrorPage />} />
+        </Routes>
+
+      </Router>
+    </AuthProvider>
+  );
+};
 
 export default App;

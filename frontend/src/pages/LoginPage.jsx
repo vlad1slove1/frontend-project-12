@@ -4,26 +4,28 @@ import { useFormik } from 'formik';
 import { Button, Form, FloatingLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/useAuth.jsx';
 import routes from '../routes.js';
 
-const signupSchema = yup.object({
-  username: yup.string()
-    .min(4, 'Не менее 4 символов')
-    .max(12, 'Не более 12 символов')
-    .required('Обязательное поле'),
-  password: yup.string()
-    .min(4, 'Не менее 4 символов')
-    .required('Обязательное поле'),
-});
-
 const LoginPage = () => {
   const [authenticated, setAuthenticated] = useState(true);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const authUser = useAuth();
   const inputEl = useRef();
+
+  const signupSchema = yup.object({
+    username: yup.string()
+      .min(3, t('errors.usernameMin'))
+      .max(20, t('errors.usernamemax'))
+      .required(t('errors.required')),
+    password: yup.string()
+      .min(5, t('errors.passwordMin'))
+      .required(t('errors.required')),
+  });
 
   useEffect(() => {
     inputEl.current.focus();
@@ -58,11 +60,11 @@ const LoginPage = () => {
     <div className="container-fluid" style={{ marginTop: '15vh' }}>
       <div className="row justify-content-center pt-4">
         <div className="col-sm-4" style={{ textAlign: 'center' }}>
-          <h1 className="mb-3" style={{ margin: '0 auto' }}>Войти</h1>
+          <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('loginForm.title')}</h1>
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-3" style={{ width: '400px', margin: '0 auto' }}>
               <FloatingLabel
-                label="Имя пользователя"
+                label={t('loginForm.username')}
                 className="mb-3"
               >
                 <Form.Control
@@ -81,7 +83,7 @@ const LoginPage = () => {
 
             <Form.Group style={{ width: '400px', margin: '0 auto' }}>
               <FloatingLabel
-                label="Ваш пароль"
+                label={t('loginForm.password')}
                 className="mb-3"
               >
                 <Form.Control
@@ -94,7 +96,7 @@ const LoginPage = () => {
                   required
                   size="lg"
                 />
-                <Form.Control.Feedback type="invalid">Не правильное имя пользователя или пароль</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">{t('errors.loginForm')}</Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
 
@@ -103,7 +105,7 @@ const LoginPage = () => {
               type="submit"
               variant="outline-primary"
             >
-              Войти
+              {t('loginForm.submitButton')}
             </Button>
           </Form>
         </div>

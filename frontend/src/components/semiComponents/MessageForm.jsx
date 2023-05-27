@@ -6,6 +6,8 @@ import {
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { BoxArrowInRight } from 'react-bootstrap-icons';
+import { useTranslation } from 'react-i18next';
+
 import useChatContext from '../../hooks/useChatContext.jsx';
 
 const MessageForm = () => {
@@ -13,6 +15,7 @@ const MessageForm = () => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const { handleNewMessage } = useChatContext();
   const inputEl = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     inputEl.current.focus();
@@ -33,11 +36,10 @@ const MessageForm = () => {
       <div className="input-group has-validation">
         <InputGroup>
           <Form.Control
-            placeholder="Введите сообщение..."
+            placeholder={t('chat.messageInput')}
             aria-label="enterMessage"
             name="enterMessage"
             id="enterMessage"
-            autoComplete="enterMessage"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             ref={inputEl}

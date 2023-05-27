@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import MessagesList from './semiComponents/MessagesList.jsx';
 import MessageForm from './semiComponents/MessageForm.jsx';
@@ -7,6 +8,7 @@ import MessageForm from './semiComponents/MessageForm.jsx';
 const Messages = () => {
   const channelsData = useSelector((state) => state.channelsInfo);
   const messagesData = useSelector((state) => state.messagesInfo);
+  const { t } = useTranslation();
 
   const { channels, currentChannelId, loadingStatus } = channelsData;
   const { messages } = messagesData;
@@ -32,7 +34,7 @@ const Messages = () => {
           <span className="text-muted">
             {channelMessages.length}
             {' '}
-            сообщений
+            {t('chat.messages.key', { count: channelMessages.length })}
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">

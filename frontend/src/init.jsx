@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
+import { I18nextProvider } from 'react-i18next';
 
 import App from './components/App.jsx';
 import store from './slices/index.js';
@@ -12,6 +13,7 @@ import {
   deleteChannel,
   renameChannel,
 } from './slices/channelsSlice.js';
+import i18n from './locales/index.js';
 
 const init = () => {
   const socket = io();
@@ -44,11 +46,13 @@ const init = () => {
 
   return (
     <Provider store={store}>
-      <ChatContext.Provider value={handlers}>
-        <div className="d-flex flex-column h-100">
-          <App />
-        </div>
-      </ChatContext.Provider>
+      <I18nextProvider i18n={i18n}>
+        <ChatContext.Provider value={handlers}>
+          <div className="d-flex flex-column h-100">
+            <App />
+          </div>
+        </ChatContext.Provider>
+      </I18nextProvider>
     </Provider>
   );
 };

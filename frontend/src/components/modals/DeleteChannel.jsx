@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-  Modal,
-  FormGroup,
-} from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import useChatContext from '../../hooks/useChatContext.jsx';
 
@@ -10,6 +8,7 @@ const DeleteChannel = (props) => {
   const { onHide, modalInfo } = props;
   const channelId = modalInfo.item.id;
   const { handleDeleteChannel } = useChatContext();
+  const { t } = useTranslation();
 
   const handleSubmit = () => {
     handleDeleteChannel({ id: channelId });
@@ -19,23 +18,25 @@ const DeleteChannel = (props) => {
   return (
     <Modal show onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modals.deleteChannel.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={handleSubmit}>
-          <FormGroup controlId="body" className="form-group">
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="body" className="form-group">
             <p>
-              Вы уверены, что хотите удалить канал
+              {t('modals.deleteChannel.descr')}
               {' '}
               <b>
                 {modalInfo.item.name}
-                ?
               </b>
+              {' '}
+              ?
             </p>
-            <input className="btn btn-danger float-end" type="submit" value="Удалить" />
-          </FormGroup>
-        </form>
+          </Form.Group>
+
+          <Button variant="danger" className="float-end mt-3" type="submit">{t('modals.deleteChannel.button')}</Button>
+        </Form>
       </Modal.Body>
     </Modal>
   );
