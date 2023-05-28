@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { Form, Button, FloatingLabel } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 
 import SignupError from '../components/semiComponents/SignupError.jsx';
 import SignupSuccess from '../components/semiComponents/SignupSuccess.jsx';
@@ -49,6 +50,11 @@ const SignupPage = () => {
     validationSchema: signupSchema,
     onSubmit: async (values) => {
       try {
+        if (filter.check(values.username)) {
+          showToast(t('signupForm.toastError'), 'warning');
+          return;
+        }
+
         const response = await axios.post(routes.signupPath(), values);
         localStorage.setItem('userId', JSON.stringify(response.data));
 

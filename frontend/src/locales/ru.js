@@ -21,6 +21,7 @@ export default {
       password: 'Пароль',
       confirmPass: 'Подтвердить пароль',
       submitButton: 'Создать аккаунт',
+      toastError: 'Недопустимое имя пользователя',
     },
     chat: {
       channels: 'Каналы',
@@ -90,6 +91,7 @@ export default {
       channelRenamed: 'Канал переименован',
       channelDeleted: 'Канал удалён',
       connectionError: 'Ошибка соединения',
+      badWordChannel: 'Придумайте другое название',
     },
   },
 };

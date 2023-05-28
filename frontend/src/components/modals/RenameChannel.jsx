@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 
 import useChatContext from '../../hooks/useChatContext.jsx';
 import showToast from '../../toastify/showToast.js';
@@ -28,6 +29,11 @@ const RenameChannel = (props) => {
     initialValues: { name: modalInfo.item.name },
     validationSchema: schema,
     onSubmit: (value) => {
+      if (filter.check(value.name)) {
+        showToast(t('toastify.badWordChannel'), 'warning');
+        return;
+      }
+
       handleRenameChannel({ id: modalInfo.item.id, name: value.name });
       showToast(t('toastify.channelRenamed'), 'info');
       onHide();

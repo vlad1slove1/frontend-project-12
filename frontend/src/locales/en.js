@@ -21,6 +21,7 @@ export default {
       password: 'Password',
       confirmPass: 'Confirm password',
       submitButton: 'Submit',
+      toastError: 'Invalid username',
     },
     chat: {
       channels: 'Channels',
@@ -84,6 +85,13 @@ export default {
       passwordMin: 'At least 6 characters',
       confirmPass: 'Passwords must match',
       required: 'Required field',
+    },
+    toastify: {
+      newChannel: 'Channel created',
+      channelRenamed: 'Channel renamed',
+      channelDeleted: 'Channel deleted',
+      connectionError: 'Connection error',
+      badWordChannel: 'Try another channel name',
     },
   },
 };

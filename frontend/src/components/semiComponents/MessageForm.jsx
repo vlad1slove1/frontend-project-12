@@ -7,6 +7,7 @@ import {
 import { useSelector } from 'react-redux';
 import { BoxArrowInRight } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 
 import useChatContext from '../../hooks/useChatContext.jsx';
 
@@ -26,7 +27,7 @@ const MessageForm = () => {
 
     if (message) {
       const { username } = JSON.parse(localStorage.getItem('userId'));
-      handleNewMessage({ body: message, channelId: currentChannelId, username });
+      handleNewMessage({ body: filter.clean(message), channelId: currentChannelId, username });
       setMessage('');
     }
   };

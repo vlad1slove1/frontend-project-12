@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import { I18nextProvider } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
+import filter from 'leo-profanity';
 
 import App from './components/App.jsx';
 import store from './slices/index.js';
@@ -44,6 +45,14 @@ const init = () => {
     handleDeleteChannel,
     handleRenameChannel,
   };
+
+  // remove all bad words from the filter
+  // now the filter can't filter anything cause there are no bad words
+  filter.clearList();
+
+  // adding word (from builtin dictionary) into the filter
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('ru'));
 
   return (
     <Provider store={store}>
