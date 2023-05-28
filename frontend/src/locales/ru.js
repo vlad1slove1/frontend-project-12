@@ -85,5 +85,11 @@ export default {
       confirmPass: 'Пароли должны совпадать',
       required: 'Обязательное поле',
     },
+    toastify: {
+      newChannel: 'Канал создан',
+      channelRenamed: 'Канал переименован',
+      channelDeleted: 'Канал удалён',
+      connectionError: 'Ошибка соединения',
+    },
   },
 };

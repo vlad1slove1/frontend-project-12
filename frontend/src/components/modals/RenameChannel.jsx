@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import useChatContext from '../../hooks/useChatContext.jsx';
+import showToast from '../../toastify/showToast.js';
 
 const RenameChannel = (props) => {
   const { onHide, modalInfo } = props;
@@ -28,6 +29,7 @@ const RenameChannel = (props) => {
     validationSchema: schema,
     onSubmit: (value) => {
       handleRenameChannel({ id: modalInfo.item.id, name: value.name });
+      showToast(t('toastify.channelRenamed'), 'info');
       onHide();
     },
   });

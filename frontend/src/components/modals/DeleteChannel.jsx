@@ -3,6 +3,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import useChatContext from '../../hooks/useChatContext.jsx';
+import showToast from '../../toastify/showToast.js';
 
 const DeleteChannel = (props) => {
   const { onHide, modalInfo } = props;
@@ -12,6 +13,7 @@ const DeleteChannel = (props) => {
 
   const handleSubmit = () => {
     handleDeleteChannel({ id: channelId });
+    showToast(t('toastify.channelDeleted'), 'info');
     onHide();
   };
 

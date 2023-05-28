@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import useAuth from '../hooks/useAuth.jsx';
 import routes from '../routes.js';
+import showToast from '../toastify/showToast.js';
 
 const LoginPage = () => {
   const [authenticated, setAuthenticated] = useState(true);
@@ -46,6 +47,7 @@ const LoginPage = () => {
         navigate(routes.chatPagePath());
       } catch (error) {
         formik.setSubmitting(false);
+        showToast(t('toastify.connectionError'), 'error');
         if (error.isAxiosError && error.response.status === 401) {
           setAuthenticated(false);
           inputEl.current.select();

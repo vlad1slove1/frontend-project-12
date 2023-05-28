@@ -10,6 +10,7 @@ import SignupSuccess from '../components/semiComponents/SignupSuccess.jsx';
 
 import useAuth from '../hooks/useAuth.jsx';
 import routes from '../routes.js';
+import showToast from '../toastify/showToast.js';
 
 const SignupPage = () => {
   const [authenticated, setAuthenticated] = useState(true);
@@ -55,6 +56,7 @@ const SignupPage = () => {
         setShowSuccessModal(true);
       } catch (error) {
         formik.setSubmitting(false);
+        showToast(t('toastify.connectionError'), 'error');
         if (error.isAxiosError && error.response.status === 409) {
           setAuthenticated(false);
           setShowErrorModal(true);

@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 import { I18nextProvider } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 
 import App from './components/App.jsx';
 import store from './slices/index.js';
@@ -50,6 +51,7 @@ const init = () => {
         <ChatContext.Provider value={handlers}>
           <div className="d-flex flex-column h-100">
             <App />
+            <ToastContainer />
           </div>
         </ChatContext.Provider>
       </I18nextProvider>

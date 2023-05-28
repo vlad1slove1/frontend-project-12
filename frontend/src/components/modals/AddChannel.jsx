@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import useChatContext from '../../hooks/useChatContext.jsx';
+import showToast from '../../toastify/showToast.js';
 
 const AddChannel = (props) => {
   const { onHide } = props;
@@ -28,6 +29,7 @@ const AddChannel = (props) => {
     validationSchema: schema,
     onSubmit: (value) => {
       handleNewChannel(value);
+      showToast(t('toastify.newChannel'), 'success');
       onHide();
     },
   });
