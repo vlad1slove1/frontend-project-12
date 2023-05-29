@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import { I18nextProvider } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
 import filter from 'leo-profanity';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import App from './components/App.jsx';
 import store from './slices/index.js';
@@ -54,17 +55,28 @@ const init = () => {
   filter.add(filter.getDictionary('en'));
   filter.add(filter.getDictionary('ru'));
 
+  const rollbarConfig = {
+    accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    autoInstrument: true,
+  };
+
   return (
-    <Provider store={store}>
-      <I18nextProvider i18n={i18n}>
-        <ChatContext.Provider value={handlers}>
-          <div className="d-flex flex-column h-100">
-            <App />
-            <ToastContainer />
-          </div>
-        </ChatContext.Provider>
-      </I18nextProvider>
-    </Provider>
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <ChatContext.Provider value={handlers}>
+              <div className="d-flex flex-column h-100">
+                <App />
+                <ToastContainer />
+              </div>
+            </ChatContext.Provider>
+          </I18nextProvider>
+        </Provider>
+      </ErrorBoundary>
+    </RollbarProvider>
   );
 };
 
