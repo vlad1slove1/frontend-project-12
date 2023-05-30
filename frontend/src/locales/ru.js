@@ -1,7 +1,7 @@
 export default {
   translation: {
     navbar: {
-      title: 'Хекслет чат',
+      title: 'Hexlet Chat',
       login: 'Войти в аккаунт',
       logout: 'Выйти из аккаунта',
       signup: 'Зарегистрироваться',
@@ -11,16 +11,16 @@ export default {
     },
     loginForm: {
       title: 'Войти в аккаунт',
-      username: 'Имя пользователя',
-      password: 'Ваш пароль',
+      username: 'Ваш ник',
+      password: 'Пароль',
       submitButton: 'Войти',
     },
     signupForm: {
       title: 'Регистрация',
       username: 'Имя пользователя',
       password: 'Пароль',
-      confirmPass: 'Подтвердить пароль',
-      submitButton: 'Создать аккаунт',
+      confirmPass: 'Подтвердите пароль,',
+      submitButton: 'Зарегистрироваться',
       toastError: 'Недопустимое имя пользователя',
     },
     chat: {
@@ -47,8 +47,8 @@ export default {
     },
     modals: {
       addChannel: {
-        title: 'Создание нового канала',
-        button: 'Создать',
+        title: 'Добавить канал',
+        button: 'Отправить',
         titleMin: 'Не менее 5 символов',
         titleMax: 'Не более 20 символов',
         titleRequired: 'Обязательное поле',
@@ -80,9 +80,8 @@ export default {
     },
     errors: {
       loginForm: 'Неверные имя пользователя или пароль',
-      usernameMin: 'Не менее 3 символов',
-      usernameMax: 'Не более 20 символов',
-      passwordMin: 'Не менее 6 символов',
+      username: 'От 3 до 20 символов',
+      password: 'Не менее 6 символов',
       confirmPass: 'Пароли должны совпадать',
       required: 'Обязательное поле',
     },

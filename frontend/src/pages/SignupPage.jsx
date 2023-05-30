@@ -26,11 +26,11 @@ const SignupPage = () => {
 
   const signupSchema = yup.object({
     username: yup.string()
-      .min(3, t('errors.usernameMin'))
-      .max(20, t('errors.usernamemax'))
+      .min(3, t('errors.username'))
+      .max(20, t('errors.username'))
       .required(t('errors.required')),
     password: yup.string()
-      .min(6, t('errors.passwordMin'))
+      .min(6, t('errors.password'))
       .required(t('errors.required')),
     confirmPass: yup.string()
       .oneOf([yup.ref('password')], t('errors.confirmPass'))

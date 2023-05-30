@@ -80,9 +80,8 @@ export default {
     },
     errors: {
       loginForm: 'Wrong username or password',
-      usernameMin: 'At least 3 characters',
-      usernameMax: 'No more than 20 characters',
-      passwordMin: 'At least 6 characters',
+      username: 'From 3 to 20 characters',
+      password: 'At least 6 characters',
       confirmPass: 'Passwords must match',
       required: 'Required field',
     },
