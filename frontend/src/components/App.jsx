@@ -80,23 +80,19 @@ const LanguageDropdown = () => {
 
 const SignupButton = () => {
   const auth = useAuth();
-  const location = useLocation();
+  // const location = useLocation();
   const { t } = useTranslation();
+
+  const signupLink = (
+    <div className="ms-auto p-2">
+      <a href={routes.signupPagePath()}>{t('navbar.signup')}</a>
+    </div>
+  );
 
   return (
     auth.loggedIn
       ? null
-      : (
-        <Button
-          className="ms-auto p-2"
-          variant="link"
-          as={Link}
-          to={routes.signupPagePath()}
-          state={{ from: location }}
-        >
-          {t('navbar.signup')}
-        </Button>
-      )
+      : signupLink
   );
 };
 
