@@ -6,8 +6,8 @@ import {
   Route,
   Routes,
   Link,
-  Navigate,
   useLocation,
+  Navigate,
 } from 'react-router-dom';
 import {
   Button,
@@ -43,13 +43,20 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-const ChatRoute = ({ children }) => {
+const AuthWrapper = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
 
-  return (
-    auth.loggedIn ? children : <Navigate to={routes.loginPagePath()} state={{ from: location }} />
-  );
+  const token = localStorage.getItem('userId');
+
+  if (token) {
+    auth.logIn();
+      <Navigate to={routes.chatPagePath()} />;
+
+      return children;
+  }
+
+  return <Navigate to={routes.loginPagePath()} state={{ from: location }} />;
 };
 
 const AuthButton = () => {
@@ -121,9 +128,9 @@ const App = () => {
           <Route
             path={routes.chatPagePath()}
             element={(
-              <ChatRoute>
+              <AuthWrapper>
                 <ChatPage />
-              </ChatRoute>
+              </AuthWrapper>
               )}
           />
           <Route path={routes.loginPagePath()} element={<LoginPage />} />
