@@ -59,13 +59,12 @@ const LoginPage = () => {
   });
 
   return (
-    <div className="container-fluid" style={{ marginTop: '15vh' }}>
+    <div className="container-fluid" style={{ marginTop: '10vh' }}>
       <div className="row justify-content-center pt-4">
-        <div className="col-sm-4" style={{ textAlign: 'center' }}>
-          <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('loginForm.title')}</h1>
+        <div className="col-sm-4">
+          <h1 className="mb-3 text-center">{t('loginForm.title')}</h1>
           <Form onSubmit={formik.handleSubmit}>
-            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <Form.Label htmlFor="username" />
+            <Form.Group className="form-floating mb-3" style={{ width: '400px' }}>
               <Form.Control
                 type="text"
                 onChange={formik.handleChange}
@@ -76,12 +75,12 @@ const LoginPage = () => {
                 required
                 ref={inputEl}
                 size="lg"
-                placeholder={t('loginForm.username')}
               />
+
+              <Form.Label htmlFor="username">{t('loginForm.username')}</Form.Label>
             </Form.Group>
 
-            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <Form.Label htmlFor="password" />
+            <Form.Group className="form-floating mb-3" style={{ width: '400px' }}>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -91,15 +90,17 @@ const LoginPage = () => {
                 isInvalid={!authenticated}
                 required
                 size="lg"
-                placeholder={t('loginForm.password')}
               />
+
+              <Form.Label htmlFor="password">{t('loginForm.password')}</Form.Label>
+
               <Form.Control.Feedback type="invalid" className="invalid-feedback">
                 {t('errors.loginForm') || null}
               </Form.Control.Feedback>
             </Form.Group>
 
             <Button
-              style={{ marginTop: '20px', width: '400px' }}
+              style={{ width: '400px' }}
               type="submit"
               variant="outline-primary"
             >

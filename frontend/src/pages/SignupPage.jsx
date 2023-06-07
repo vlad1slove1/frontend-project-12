@@ -76,11 +76,10 @@ const SignupPage = () => {
   return (
     <div className="container-fluid" style={{ marginTop: '10vh' }}>
       <div className="row justify-content-center pt-4">
-        <div className="col-sm-4" style={{ textAlign: 'center' }}>
-          <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('signupForm.title')}</h1>
+        <div className="col-sm-4">
+          <h1 className="mb-3 text-center">{t('signupForm.title')}</h1>
           <Form noValidate onSubmit={formik.handleSubmit}>
-            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <Form.Label htmlFor="username" />
+            <Form.Group className="form-floating mb-3" style={{ width: '400px' }}>
               <Form.Control
                 type="text"
                 onChange={formik.handleChange}
@@ -91,15 +90,16 @@ const SignupPage = () => {
                 isInvalid={formik.touched.username && formik.errors.username}
                 size="lg"
                 ref={inputEl}
-                placeholder={t('signupForm.username')}
               />
+
+              <Form.Label htmlFor="username">{t('signupForm.username')}</Form.Label>
+
               <Form.Control.Feedback type="invalid" className="invalid-feedback">
                 {formik.errors.username || null}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <Form.Label htmlFor="password" />
+            <Form.Group className="form-floating mb-3" style={{ width: '400px' }}>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -109,15 +109,16 @@ const SignupPage = () => {
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.password && formik.errors.password}
                 size="lg"
-                placeholder={t('signupForm.password')}
               />
+
+              <Form.Label htmlFor="password">{t('signupForm.password')}</Form.Label>
+
               <Form.Control.Feedback type="invalid" className="invalid-feedback">
                 {formik.errors.password || null}
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <Form.Label htmlFor="confirmPass" />
+            <Form.Group className="form-floating mb-3" style={{ width: '400px' }}>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -127,15 +128,17 @@ const SignupPage = () => {
                 onBlur={formik.handleBlur}
                 isInvalid={formik.touched.confirmPass && formik.errors.confirmPass}
                 size="lg"
-                placeholder={t('signupForm.confirmPass')}
               />
+
+              <Form.Label htmlFor="confirmPass">{t('signupForm.confirmPass')}</Form.Label>
+
               <Form.Control.Feedback type="invalid" className="invalid-feedback">
                 {formik.errors.confirmPass || null}
               </Form.Control.Feedback>
             </Form.Group>
 
             <Button
-              style={{ marginTop: '20px', width: '400px' }}
+              style={{ width: '400px' }}
               type="submit"
               variant="outline-primary"
             >
