@@ -80,7 +80,11 @@ const SignupPage = () => {
           <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('signupForm.title')}</h1>
           <Form noValidate onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label={t('signupForm.username')} className="mb-3">
+              <FloatingLabel
+                label={t('signupForm.username')}
+                className="mb-3"
+                controlId="usernameLabel"
+              >
                 <Form.Control
                   type="text"
                   onChange={formik.handleChange}
@@ -99,7 +103,11 @@ const SignupPage = () => {
             </Form.Group>
 
             <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label={t('signupForm.password')} className="mb-3">
+              <FloatingLabel
+                label={t('signupForm.password')}
+                className="mb-3"
+                controlId="passwordLabel"
+              >
                 <Form.Control
                   type="password"
                   onChange={formik.handleChange}
@@ -117,7 +125,11 @@ const SignupPage = () => {
             </Form.Group>
 
             <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label={t('signupForm.confirmPass')} className="mb-3">
+              <FloatingLabel
+                label={t('signupForm.confirmPass')}
+                className="mb-3"
+                controlId="confirmPassLabel"
+              >
                 <Form.Control
                   type="password"
                   onChange={formik.handleChange}
