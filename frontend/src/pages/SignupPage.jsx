@@ -14,7 +14,6 @@ import routes from '../routes.js';
 import showToast from '../toastify/showToast.js';
 
 const SignupPage = () => {
-  const [authenticated, setAuthenticated] = useState(true);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { t } = useTranslation();
@@ -33,8 +32,11 @@ const SignupPage = () => {
       .min(6, t('errors.password'))
       .required(t('errors.required')),
     confirmPass: yup.string()
-      .oneOf([yup.ref('password')], t('errors.confirmPass'))
-      .required(t('errors.required')),
+      .test(
+        'confirmPass',
+        t('errors.confirmPass'),
+        (password, context) => password === context.parent.password,
+      ),
   });
 
   useEffect(() => {
@@ -64,7 +66,6 @@ const SignupPage = () => {
         formik.setSubmitting(false);
         showToast(t('toastify.connectionError'), 'error');
         if (error.isAxiosError && error.response.status === 409) {
-          setAuthenticated(false);
           setShowErrorModal(true);
         }
         throw error;
@@ -77,7 +78,7 @@ const SignupPage = () => {
       <div className="row justify-content-center pt-4">
         <div className="col-sm-4" style={{ textAlign: 'center' }}>
           <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('signupForm.title')}</h1>
-          <Form onSubmit={formik.handleSubmit}>
+          <Form noValidate onSubmit={formik.handleSubmit}>
             <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
               <FloatingLabel label={t('signupForm.username')} className="mb-3">
                 <Form.Control
@@ -87,15 +88,12 @@ const SignupPage = () => {
                   name="username"
                   id="username"
                   onBlur={formik.handleBlur}
-                  isInvalid={
-                    (formik.touched.username && formik.errors.username) || authenticated
-                  }
-                  required
+                  isInvalid={formik.touched.username && formik.errors.username}
                   size="lg"
                   ref={inputEl}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.username}
+                <Form.Control.Feedback type="invalid" className="invalid-feedback">
+                  {formik.errors.username || null}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
@@ -109,14 +107,11 @@ const SignupPage = () => {
                   name="password"
                   id="password"
                   onBlur={formik.handleBlur}
-                  isInvalid={
-                    (formik.touched.password && formik.errors.password) || authenticated
-                  }
-                  required
+                  isInvalid={formik.touched.password && formik.errors.password}
                   size="lg"
                 />
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.password}
+                <Form.Control.Feedback type="invalid" className="invalid-feedback">
+                  {formik.errors.password || null}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
@@ -130,14 +125,11 @@ const SignupPage = () => {
                   name="confirmPass"
                   id="confirmPass"
                   onBlur={formik.handleBlur}
-                  isInvalid={
-                    (formik.touched.confirmPass && formik.errors.confirmPass) || authenticated
-                  }
-                  required
+                  isInvalid={formik.touched.confirmPass && formik.errors.confirmPass}
                   size="lg"
                 />
-                <Form.Control.Feedback type="invalid">
-                  {formik.errors.confirmPass}
+                <Form.Control.Feedback type="invalid" className="invalid-feedback">
+                  {formik.errors.confirmPass || null}
                 </Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>

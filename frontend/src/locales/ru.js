@@ -19,7 +19,7 @@ export default {
       title: 'Регистрация',
       username: 'Имя пользователя',
       password: 'Пароль',
-      confirmPass: 'Подтвердите пароль,',
+      confirmPass: 'Подтвердите пароль',
       submitButton: 'Зарегистрироваться',
       toastError: 'Недопустимое имя пользователя',
     },
