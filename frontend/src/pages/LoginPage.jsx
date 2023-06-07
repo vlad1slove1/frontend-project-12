@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import { Button, Form, FloatingLabel } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -64,46 +64,42 @@ const LoginPage = () => {
         <div className="col-sm-4" style={{ textAlign: 'center' }}>
           <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('loginForm.title')}</h1>
           <Form onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-3" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel
-                label={t('loginForm.username')}
-                className="mb-3"
-              >
-                <Form.Control
-                  type="text"
-                  onChange={formik.handleChange}
-                  value={formik.values.username}
-                  name="username"
-                  id="username"
-                  isInvalid={!authenticated}
-                  required
-                  ref={inputEl}
-                  size="lg"
-                />
-              </FloatingLabel>
+            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
+              <Form.Label htmlFor="username" />
+              <Form.Control
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.username}
+                name="username"
+                id="username"
+                isInvalid={!authenticated}
+                required
+                ref={inputEl}
+                size="lg"
+                placeholder={t('loginForm.username')}
+              />
             </Form.Group>
 
             <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel
-                label={t('loginForm.password')}
-                className="mb-3"
-              >
-                <Form.Control
-                  type="password"
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                  name="password"
-                  id="password"
-                  isInvalid={!authenticated}
-                  required
-                  size="lg"
-                />
-                <Form.Control.Feedback type="invalid">{t('errors.loginForm')}</Form.Control.Feedback>
-              </FloatingLabel>
+              <Form.Label htmlFor="password" />
+              <Form.Control
+                type="password"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                name="password"
+                id="password"
+                isInvalid={!authenticated}
+                required
+                size="lg"
+                placeholder={t('loginForm.password')}
+              />
+              <Form.Control.Feedback type="invalid" className="invalid-feedback">
+                {t('errors.loginForm') || null}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Button
-              style={{ marginTop: '15px', width: '400px' }}
+              style={{ marginTop: '20px', width: '400px' }}
               type="submit"
               variant="outline-primary"
             >

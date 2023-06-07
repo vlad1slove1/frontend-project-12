@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
-import { Form, Button, FloatingLabel } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
@@ -74,68 +74,68 @@ const SignupPage = () => {
   });
 
   return (
-    <div className="container-fluid" style={{ marginTop: '15vh' }}>
+    <div className="container-fluid" style={{ marginTop: '10vh' }}>
       <div className="row justify-content-center pt-4">
         <div className="col-sm-4" style={{ textAlign: 'center' }}>
           <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('signupForm.title')}</h1>
           <Form noValidate onSubmit={formik.handleSubmit}>
-            <Form.Group controlId="usernameLabel" className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label={t('signupForm.username')} className="mb-3">
-                <Form.Control
-                  type="text"
-                  onChange={formik.handleChange}
-                  value={formik.values.username}
-                  name="username"
-                  id="username"
-                  onBlur={formik.handleBlur}
-                  isInvalid={formik.touched.username && formik.errors.username}
-                  size="lg"
-                  ref={inputEl}
-                />
-                <Form.Control.Feedback type="invalid" className="invalid-feedback">
-                  {formik.errors.username || null}
-                </Form.Control.Feedback>
-              </FloatingLabel>
+            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
+              <Form.Label htmlFor="username" />
+              <Form.Control
+                type="text"
+                onChange={formik.handleChange}
+                value={formik.values.username}
+                name="username"
+                id="username"
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.username && formik.errors.username}
+                size="lg"
+                ref={inputEl}
+                placeholder={t('signupForm.username')}
+              />
+              <Form.Control.Feedback type="invalid" className="invalid-feedback">
+                {formik.errors.username || null}
+              </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="passwordLabel" className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label={t('signupForm.password')} className="mb-3">
-                <Form.Control
-                  type="password"
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                  name="password"
-                  id="password"
-                  onBlur={formik.handleBlur}
-                  isInvalid={formik.touched.password && formik.errors.password}
-                  size="lg"
-                />
-                <Form.Control.Feedback type="invalid" className="invalid-feedback">
-                  {formik.errors.password || null}
-                </Form.Control.Feedback>
-              </FloatingLabel>
+            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
+              <Form.Label htmlFor="password" />
+              <Form.Control
+                type="password"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                name="password"
+                id="password"
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.password && formik.errors.password}
+                size="lg"
+                placeholder={t('signupForm.password')}
+              />
+              <Form.Control.Feedback type="invalid" className="invalid-feedback">
+                {formik.errors.password || null}
+              </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group controlId="confirmPassLabel" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel label={t('signupForm.confirmPass')} className="mb-3">
-                <Form.Control
-                  type="password"
-                  onChange={formik.handleChange}
-                  value={formik.values.confirmPass}
-                  name="confirmPass"
-                  id="confirmPass"
-                  onBlur={formik.handleBlur}
-                  isInvalid={formik.touched.confirmPass && formik.errors.confirmPass}
-                  size="lg"
-                />
-                <Form.Control.Feedback type="invalid" className="invalid-feedback">
-                  {formik.errors.confirmPass || null}
-                </Form.Control.Feedback>
-              </FloatingLabel>
+            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
+              <Form.Label htmlFor="confirmPass" />
+              <Form.Control
+                type="password"
+                onChange={formik.handleChange}
+                value={formik.values.confirmPass}
+                name="confirmPass"
+                id="confirmPass"
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.confirmPass && formik.errors.confirmPass}
+                size="lg"
+                placeholder={t('signupForm.confirmPass')}
+              />
+              <Form.Control.Feedback type="invalid" className="invalid-feedback">
+                {formik.errors.confirmPass || null}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Button
-              style={{ marginTop: '15px', width: '400px' }}
+              style={{ marginTop: '20px', width: '400px' }}
               type="submit"
               variant="outline-primary"
             >
