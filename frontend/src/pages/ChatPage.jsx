@@ -6,6 +6,15 @@ import fetchData from '../actions/fetchData.js';
 import Channels from '../components/Channels.jsx';
 import Messages from '../components/Messages.jsx';
 
+const Chat = () => (
+  <div className="container h-100 my-4 overflow-hidden rounded shadow">
+    <div className="row h-100 bg-white flex-md-row">
+      <Channels />
+      <Messages />
+    </div>
+  </div>
+);
+
 const ChatPage = () => {
   const dispatch = useDispatch();
 
@@ -13,14 +22,7 @@ const ChatPage = () => {
     dispatch(fetchData());
   }, [dispatch]);
 
-  return (
-    <div className="container h-100 my-4 overflow-hidden rounded shadow">
-      <div className="row h-100 bg-white flex-md-row">
-        <Channels />
-        <Messages />
-      </div>
-    </div>
-  );
+  return (<Chat />);
 };
 
 export default ChatPage;
