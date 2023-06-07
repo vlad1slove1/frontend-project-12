@@ -31,7 +31,7 @@ const Channels = () => {
           type="button"
           className="btn btn-outline-info btn-sm"
         >
-          {t('chat.addChannel')}
+          +
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill px-2">
