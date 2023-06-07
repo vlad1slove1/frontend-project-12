@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MessagesList = ({ messages }) => (messages.map((message) => (
-  <div key={message.id} className="text-break mb-2">
+  <div key={message.id} className="mb-2" style={{ wordBreak: 'break-all' }}>
     <b>{message.username}</b>
     :
     {' '}
