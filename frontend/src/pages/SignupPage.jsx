@@ -79,12 +79,8 @@ const SignupPage = () => {
         <div className="col-sm-4" style={{ textAlign: 'center' }}>
           <h1 className="mb-3" style={{ margin: '0 auto' }}>{t('signupForm.title')}</h1>
           <Form noValidate onSubmit={formik.handleSubmit}>
-            <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel
-                label={t('signupForm.username')}
-                className="mb-3"
-                controlId="usernameLabel"
-              >
+            <Form.Group controlId="usernameLabel" className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
+              <FloatingLabel label={t('signupForm.username')} className="mb-3">
                 <Form.Control
                   type="text"
                   onChange={formik.handleChange}
@@ -102,12 +98,8 @@ const SignupPage = () => {
               </FloatingLabel>
             </Form.Group>
 
-            <Form.Group className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel
-                label={t('signupForm.password')}
-                className="mb-3"
-                controlId="passwordLabel"
-              >
+            <Form.Group controlId="passwordLabel" className="mb-2" style={{ width: '400px', margin: '0 auto' }}>
+              <FloatingLabel label={t('signupForm.password')} className="mb-3">
                 <Form.Control
                   type="password"
                   onChange={formik.handleChange}
@@ -124,12 +116,8 @@ const SignupPage = () => {
               </FloatingLabel>
             </Form.Group>
 
-            <Form.Group style={{ width: '400px', margin: '0 auto' }}>
-              <FloatingLabel
-                label={t('signupForm.confirmPass')}
-                className="mb-3"
-                controlId="confirmPassLabel"
-              >
+            <Form.Group controlId="confirmPassLabel" style={{ width: '400px', margin: '0 auto' }}>
+              <FloatingLabel label={t('signupForm.confirmPass')} className="mb-3">
                 <Form.Control
                   type="password"
                   onChange={formik.handleChange}
