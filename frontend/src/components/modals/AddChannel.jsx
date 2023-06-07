@@ -52,7 +52,7 @@ const AddChannel = (props) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
+        <Form noValidate onSubmit={formik.handleSubmit}>
           <Form.Group>
             <Form.Control
               type="text"
@@ -62,11 +62,10 @@ const AddChannel = (props) => {
               id="name"
               ref={inputEl}
               onBlur={formik.handleBlur}
-              isInvalid={(formik.touched.name && formik.errors.name)}
-              required
+              isInvalid={formik.touched.name && formik.errors.name}
             />
             <Form.Control.Feedback type="invalid">
-              {formik.errors.name}
+              {formik.errors.name || null}
             </Form.Control.Feedback>
           </Form.Group>
 
