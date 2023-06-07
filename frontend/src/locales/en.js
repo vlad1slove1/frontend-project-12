@@ -35,6 +35,7 @@ export default {
       },
       addChannel: 'Add',
       messageInput: 'Enter your message...',
+      messageLabel: 'New message',
     },
     404: {
       title: 'Oops!',

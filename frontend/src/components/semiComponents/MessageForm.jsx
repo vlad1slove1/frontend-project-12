@@ -38,7 +38,7 @@ const MessageForm = () => {
         <InputGroup>
           <Form.Control
             placeholder={t('chat.messageInput')}
-            aria-label="enterMessage"
+            aria-label={t('chat.messageLabel')}
             name="enterMessage"
             id="enterMessage"
             value={message}
