@@ -45,6 +45,7 @@ export default {
     dropdowns: {
       renameChannel: 'Переименовать',
       deleteChannel: 'Удалить',
+      control: 'Управление каналом',
     },
     modals: {
       addChannel: {
@@ -54,6 +55,7 @@ export default {
         titleMax: 'Не более 20 символов',
         titleRequired: 'Обязательное поле',
         titleUnique: 'Канал с таким названием уже существует',
+        inputLabel: 'Имя канала',
       },
       renameChannel: {
         title: 'Переименование канала',

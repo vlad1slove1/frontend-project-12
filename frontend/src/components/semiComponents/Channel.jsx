@@ -1,6 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
+import {
+  Button,
+  Dropdown,
+  ButtonGroup,
+  Nav,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { changeChannel } from '../../slices/channelsSlice.js';
@@ -18,22 +23,28 @@ const Channel = ({ channelData, showModal }) => {
   };
 
   return (
-    <Dropdown as={ButtonGroup}>
-      <Button
-        variant={id === currentChannelId ? 'secondary' : 'light'}
-        className="text-start w-100 rounded-0"
-        onClick={() => handleClick(id)}
-      >
-        #
-        {' '}
-        {name}
-      </Button>
-      {removable && (<Dropdown.Toggle variant={id === currentChannelId ? 'secondary' : 'light'} />)}
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => showModal('renaming', channelData)}>{t('dropdowns.renameChannel')}</Dropdown.Item>
-        <Dropdown.Item onClick={() => showModal('deleting', channelData)}>{t('dropdowns.deleteChannel')}</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+    <Nav.Item key={id} as="li" className="w-100">
+      <Dropdown as={ButtonGroup} className="d-flex btn-group">
+        <Button
+          variant={id === currentChannelId ? 'secondary' : 'light'}
+          className="w-100 rounded-0 text-start text-truncate"
+          onClick={() => handleClick(id)}
+        >
+          #
+          {' '}
+          {name}
+        </Button>
+        {removable && (
+          <Dropdown.Toggle variant={id === currentChannelId ? 'secondary' : 'light'}>
+            <span className="visually-hidden">{t('dropdowns.control')}</span>
+          </Dropdown.Toggle>
+        )}
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={() => showModal('renaming', channelData)}>{t('dropdowns.renameChannel')}</Dropdown.Item>
+          <Dropdown.Item onClick={() => showModal('deleting', channelData)}>{t('dropdowns.deleteChannel')}</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </Nav.Item>
   );
 };
 

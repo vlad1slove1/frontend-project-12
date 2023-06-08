@@ -64,6 +64,9 @@ const AddChannel = (props) => {
               onBlur={formik.handleBlur}
               isInvalid={formik.touched.name && formik.errors.name}
             />
+
+            <Form.Label className="visually-hidden" htmlFor="name">{t('modals.addChannel.inputLabel')}</Form.Label>
+
             <Form.Control.Feedback type="invalid">
               {formik.errors.name || null}
             </Form.Control.Feedback>

@@ -45,6 +45,7 @@ export default {
     dropdowns: {
       renameChannel: 'Rename',
       deleteChannel: 'Delete',
+      control: 'Managing channels',
     },
     modals: {
       addChannel: {
@@ -54,6 +55,7 @@ export default {
         titleMax: 'No more than 20 characters',
         titleRequired: 'Required field',
         titleUnique: 'This channel name already exists',
+        inputLabel: 'Channel name',
       },
       renameChannel: {
         title: 'Renaming channel',
