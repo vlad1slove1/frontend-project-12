@@ -90,10 +90,14 @@ export default {
     },
     toastify: {
       newChannel: 'Channel created',
+      newChannelError: 'Channel creating error',
       channelRenamed: 'Channel renamed',
+      renamingChannelError: 'Channel renaming error',
       channelDeleted: 'Channel deleted',
+      deletingChannelError: 'Channel deleting error',
       connectionError: 'Connection error',
       badWordChannel: 'Try another channel name',
+      athorizationError: 'Authorization error',
     },
   },
 };
