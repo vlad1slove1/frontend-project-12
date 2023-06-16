@@ -1,27 +1,32 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Nav } from 'react-bootstrap';
 
 import Channel from './semiComponents/Channel.jsx';
 import getModal from './modals/index.js';
+import { showModal, hideModal } from '../slices/modalsSlice.js';
 
-const renderModal = (info, hideModal) => {
-  if (!info.action) {
+const renderModal = (modal, hide) => {
+  if (!modal.modalType) {
     return null;
   }
 
-  const Component = getModal(info.action);
-  return <Component modalInfo={info} onHide={hideModal} />;
+  const Component = getModal(modal.modalType);
+  return <Component modalInfo={modal} onHide={hide} />;
 };
 
 const Channels = () => {
   const stateChannels = useSelector((state) => state.channelsInfo);
-  const [modalInfo, setModalInfo] = useState({ action: null, item: null });
-  const { t } = useTranslation();
+  const modalInfo = useSelector((state) => state.modalsInfo);
 
-  const hideModal = () => setModalInfo({ action: null, item: null });
-  const showModal = (action, item = null) => setModalInfo({ action, item });
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  const handleAddChannel = () => dispatch(showModal({ modalType: 'adding' }));
+  const handleRenameChannel = (item) => dispatch(showModal({ modalType: 'renaming', currentItem: item }));
+  const handleDeleteChannel = (item) => dispatch(showModal({ modalType: 'deleting', currentItem: item }));
+  const handleCloseModal = () => dispatch(hideModal());
 
   const channelsView = useRef(null);
   useEffect(() => {
@@ -34,7 +39,7 @@ const Channels = () => {
         <b>{t('chat.channels')}</b>
         <Button
           variant="group-veritcal"
-          onClick={() => showModal('adding')}
+          onClick={handleAddChannel}
           type="button"
           className="text-primary ms-auto"
         >
@@ -44,10 +49,16 @@ const Channels = () => {
       </div>
       <Nav className="nav flex-column nav-pills nav-fill px-2">
         {stateChannels.channels.map((channel) => (
-          <Channel key={channel.id} channelData={channel} showModal={showModal} />
+          <Channel
+            key={channel.id}
+            channelData={channel}
+            renameChannel={() => handleRenameChannel(channel)}
+            deleteChannel={() => handleDeleteChannel(channel)}
+            hideModal={hideModal}
+          />
         ))}
       </Nav>
-      {renderModal(modalInfo, hideModal)}
+      {renderModal(modalInfo, handleCloseModal)}
     </div>
   );
 };
