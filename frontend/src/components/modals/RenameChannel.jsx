@@ -14,6 +14,7 @@ const RenameChannel = (props) => {
   const stateChannels = useSelector((state) => state.channelsInfo);
   const { handleRenameChannel } = useChatContext();
   const { t } = useTranslation();
+  const inputEl = useRef();
 
   const getChannelTitles = stateChannels.channels.map((channel) => channel.name);
 
@@ -26,25 +27,31 @@ const RenameChannel = (props) => {
   });
 
   const formik = useFormik({
-    initialValues: { name: modalInfo.item.name },
+    initialValues: { name: modalInfo.currentItem.name },
     validationSchema: schema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       if (filter.check(value.name)) {
         showToast(t('toastify.badWordChannel'), 'warning');
+        inputEl.current.setSelectionRange(0, value.name.length);
+        inputEl.current.focus();
         return;
       }
 
-      handleRenameChannel({ id: modalInfo.item.id, name: value.name });
-      showToast(t('toastify.channelRenamed'), 'info');
-      onHide();
+      try {
+        await handleRenameChannel({ id: modalInfo.currentItem.id, name: value.name });
+        showToast(t('toastify.channelRenamed'), 'info');
+        onHide();
+      } catch (error) {
+        showToast(t('toastify.renamingChannelError'), 'error');
+        console.error(error.message);
+      }
     },
   });
 
-  const inputEl = useRef();
   useEffect(() => {
-    inputEl.current.setSelectionRange(0, modalInfo.item.name.length);
+    inputEl.current.setSelectionRange(0, modalInfo.currentItem.name.length);
     inputEl.current.focus();
-  }, [modalInfo.item.name]);
+  }, [modalInfo.currentItem.name]);
 
   return (
     <Modal show onHide={onHide}>

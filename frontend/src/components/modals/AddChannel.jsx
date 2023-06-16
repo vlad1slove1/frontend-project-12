@@ -14,6 +14,7 @@ const AddChannel = (props) => {
   const stateChannels = useSelector((state) => state.channelsInfo);
   const { handleNewChannel } = useChatContext();
   const { t } = useTranslation();
+  const inputEl = useRef();
 
   const getChannelTitles = stateChannels.channels.map((channel) => channel.name);
 
@@ -28,19 +29,25 @@ const AddChannel = (props) => {
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: schema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       if (filter.check(value.name)) {
         showToast(t('toastify.badWordChannel'), 'warning');
+        inputEl.current.setSelectionRange(0, value.name.length);
+        inputEl.current.focus();
         return;
       }
 
-      handleNewChannel(value);
-      showToast(t('toastify.newChannel'), 'success');
-      onHide();
+      try {
+        await handleNewChannel(value);
+        showToast(t('toastify.newChannel'), 'success');
+        onHide();
+      } catch (error) {
+        showToast(t('toastify.newChannelError'), 'error');
+        console.error(error.message);
+      }
     },
   });
 
-  const inputEl = useRef();
   useEffect(() => {
     inputEl.current.focus();
   }, []);

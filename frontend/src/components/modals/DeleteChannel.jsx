@@ -7,14 +7,19 @@ import showToast from '../../toastify/showToast.js';
 
 const DeleteChannel = (props) => {
   const { onHide, modalInfo } = props;
-  const channelId = modalInfo.item.id;
+  const channelId = modalInfo.currentItem.id;
   const { handleDeleteChannel } = useChatContext();
   const { t } = useTranslation();
 
-  const handleSubmit = () => {
-    handleDeleteChannel({ id: channelId });
-    showToast(t('toastify.channelDeleted'), 'info');
-    onHide();
+  const handleSubmit = async () => {
+    try {
+      await handleDeleteChannel({ id: channelId });
+      showToast(t('toastify.channelDeleted'), 'info');
+      onHide();
+    } catch (error) {
+      showToast(t('toastify.deletingChannelError'), 'error');
+      console.error(error.message);
+    }
   };
 
   return (
@@ -30,7 +35,7 @@ const DeleteChannel = (props) => {
               {t('modals.deleteChannel.descr')}
               {' '}
               <b>
-                {modalInfo.item.name}
+                {modalInfo.currentItem.name}
               </b>
               {' '}
               ?
