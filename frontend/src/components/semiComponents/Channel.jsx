@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import { changeChannel } from '../../slices/channelsSlice.js';
 
-const Channel = ({ channelData, showModal }) => {
+const Channel = ({ channelData, renameChannel, deleteChannel }) => {
   const dispatch = useDispatch();
   const stateChannels = useSelector((state) => state.channelsInfo);
   const { currentChannelId } = stateChannels;
@@ -40,8 +40,8 @@ const Channel = ({ channelData, showModal }) => {
           </Dropdown.Toggle>
         )}
         <Dropdown.Menu>
-          <Dropdown.Item onClick={() => showModal('renaming', channelData)}>{t('dropdowns.renameChannel')}</Dropdown.Item>
-          <Dropdown.Item onClick={() => showModal('deleting', channelData)}>{t('dropdowns.deleteChannel')}</Dropdown.Item>
+          <Dropdown.Item onClick={renameChannel}>{t('dropdowns.renameChannel')}</Dropdown.Item>
+          <Dropdown.Item onClick={deleteChannel}>{t('dropdowns.deleteChannel')}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </Nav.Item>
