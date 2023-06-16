@@ -30,6 +30,9 @@ import useAuth from '../hooks/useAuth.jsx';
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
+  const setToken = (data) => localStorage.setItem('userId', JSON.stringify(data));
+  const getToken = () => localStorage.getItem('userId');
+
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
     localStorage.removeItem('userId');
@@ -37,7 +40,14 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <AuthContext.Provider value={{
+      loggedIn,
+      logIn,
+      logOut,
+      setToken,
+      getToken,
+    }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -47,12 +57,9 @@ const AuthWrapper = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
 
-  const token = localStorage.getItem('userId');
-
-  if (token) {
+  if (auth.getToken()) {
     auth.logIn();
       <Navigate to={routes.chatPagePath()} />;
-
       return children;
   }
 
