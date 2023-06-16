@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import fetchData from '../actions/fetchData.js';
 
 import Channels from '../components/Channels.jsx';
 import Messages from '../components/Messages.jsx';
+import showToast from '../toastify/showToast.js';
 
 const Chat = () => (
   <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -17,10 +19,20 @@ const Chat = () => (
 
 const ChatPage = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
+    const handleFetchData = () => {
+      try {
+        dispatch(fetchData());
+      } catch (error) {
+        showToast(t('toastify.athorizationError'), 'error');
+        console.error(error.message);
+      }
+    };
+
+    handleFetchData();
+  }, [dispatch, t]);
 
   return (<Chat />);
 };
