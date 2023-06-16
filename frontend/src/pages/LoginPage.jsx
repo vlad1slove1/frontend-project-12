@@ -15,7 +15,7 @@ const LoginPage = () => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
-  const authUser = useAuth();
+  const auth = useAuth();
   const inputEl = useRef();
 
   const signupSchema = yup.object({
@@ -41,9 +41,10 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(response.data));
 
-        authUser.logIn();
+        auth.setToken(response.data);
+        auth.logIn();
+
         navigate(routes.chatPagePath());
       } catch (error) {
         formik.setSubmitting(false);
@@ -61,7 +62,7 @@ const LoginPage = () => {
   return (
     <div className="container-fluid" style={{ marginTop: '10vh' }}>
       <div className="row justify-content-center pt-4">
-        <div className="col-sm-4">
+        <div className="col-sm-auto">
           <h1 className="mb-3 text-center">{t('loginForm.title')}</h1>
           <Form onSubmit={formik.handleSubmit}>
             <Form.Group className="form-floating mb-3" style={{ width: '400px' }}>
