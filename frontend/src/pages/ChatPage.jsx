@@ -22,12 +22,16 @@ const ChatPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const handleFetchData = () => {
+    const handleFetchData = async () => {
       try {
-        dispatch(fetchData());
+        await dispatch(fetchData());
       } catch (error) {
-        showToast(t('toastify.athorizationError'), 'error');
-        console.error(error.message);
+        if (error.isAxiosError && error.response.status === 409) {
+          showToast(t('toastify.connectionError'), 'warning');
+        } else {
+          showToast(t('toastify.athorizationError'), 'error');
+          console.error(error.message);
+        }
       }
     };
 
