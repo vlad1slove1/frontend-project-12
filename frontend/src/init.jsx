@@ -29,8 +29,11 @@ const init = () => {
   });
 
   socket.on('removeChannel', (payload) => {
+    const state = store.getState();
+    const { currentChannelId } = state.channelsInfo;
+
     store.dispatch(deleteChannel(payload));
-    store.dispatch(changeChannel(1));
+    if (currentChannelId === payload.id) store.dispatch(changeChannel(1));
   });
 
   socket.on('renameChannel', (payload) => store.dispatch(renameChannel(payload)));
